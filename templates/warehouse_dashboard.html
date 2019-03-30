@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'warehouse_dashboard_css.css' %}" type="text/css">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="{% static 'ProgressBar.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-md">
+  <a class="navbar-brand" href="#">Welcome User</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Logout</a>
+      </li>   
+    </ul>
+  </div>  
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">Welcome Warehouse Manager</div>
+				<div class="card-body">
+					Warehouse Name : Rajshree Ventures<br>
+					Warehouse Location : Delhi<br>
+					Contact : 8112257329<br>
+					<button type="button" class="btn btn-primary">Add Bill</button>
+					<button type="button" class="btn btn-primary">Scan Barcode</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">Capacity</div>
+				<div class="card-body"><div id="divProgress" style="cursor: pointer; text-align: center;"></div></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$("#divProgress").circularloader({
+  backgroundColor: "#ffffff",//background colour of inner circle
+  fontColor: "#c58d07",//font color of progress text
+  fontSize: "30px",//font size of progress text
+  radius: 55,//radius of circle
+  progressBarBackground: "#cdcdcd",//background colour of circular progress Bar
+  progressBarColor: "#c58d07",//colour of circular progress bar
+  progressBarWidth: 10,//progress bar width
+  progressPercent: "50",//progress percentage out of 100
+  showText: true,//show progress text or not/
+});
+</script>
+
+{% endblock %}

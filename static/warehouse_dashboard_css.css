@@ -1,0 +1,33 @@
+.navbar{
+	background-color: #c58d07 !important;
+}
+.navbar-brand,.nav-link{
+	color: white !important;
+}
+.card{
+	border: none !important;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	margin: 40px !important;
+}
+.card-header{
+  text-align: center !important;
+  font-size: 20px !important;
+  color: white !important;
+  background-color: #c58d07 !important;
+}
+.card-body{
+	color: #012900 !important;
+	font-size: 18px !important;
+}
+.btn{
+  text-align: center !important;
+  background-color: #c58d07 !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: white !important;
+  width: 130px;
+  margin: 15px 10px 0 0;
+}
+.btn:hover{
+	opacity: 0.9;
+}
