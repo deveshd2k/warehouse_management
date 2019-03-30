@@ -1,0 +1,70 @@
+body{
+  box-sizing: border-box;
+}
+.background{
+  background-image: url("images/warehouse.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  width: 100vw;
+  min-height: 100vh;
+}
+.content{
+  position: relative;
+  width: 50vw;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 25px;
+  margin-top: 250px;
+  padding-left: 40px;
+}
+.dropdown-toggle{
+  margin: 0 20px 0 0;
+}
+.btn{
+  text-align: center !important;
+  background-color: #965b11 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-size: 20px !important;
+  color: white !important;
+}
+.btn_1{
+  border-top-left-radius: 3px !important;
+  border-bottom-left-radius: 3px !important;
+  padding-left: 20px !important;
+  width: 90px;
+}
+.btn_2{
+  border-top-right-radius: 3px !important;
+  border-bottom-right-radius: 3px !important;
+}
+.dropdown-menu{
+  padding: 0 !important;
+}
+.dropdown-item{
+  color: #965b11 !important;
+  padding: 10px 15px !important;
+}
+.dropdown-item:hover{
+  background-color: #c58d07 !important;
+  color: white !important;
+}
+@media (max-width:900px){
+  .content{
+    margin-top: 200px;
+    width: 80vw;
+  }
+}
+@media (max-width:600px){
+  .content{
+    font-size: 22px;
+    margin-top: 100px;
+    width: 100%;
+    padding: 20px;
+  }
+  .btn{
+    font-size: 18px !important;
+  }
+}

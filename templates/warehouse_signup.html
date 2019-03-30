@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SIgn Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="warehouse_signup_css.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div class="background">
+  <div class="card">
+    <div class="card-header">Fill your details to sign up
+    </div>
+    <div class="card-body">
+    <form method="POST" class="form">
+      <div class="form-group">
+        <label for="name">Enter your name:</label>
+        <input type="text" class="form-control" id="name" placeholder="Enter your name here" required autocomplete="off">
+      </div><br>
+      <div class="form-group">
+        <label for="username">Enter your username:</label>
+        <input type="text" class="form-control" id="username" placeholder="Enter your username here" required autocomplete="off">
+      </div><br>
+      <div class="form-group">
+        <label for="pwd1">Enter Password:</label>
+        <input type="password" class="form-control" id="pwd1" placeholder="Enter password here" required>
+      </div><br>
+      <div class="form-group">
+        <label for="pwd2">Confirm Password:</label>
+        <input type="password" class="form-control" id="pwd2" placeholder="Enter password again" required>
+      </div><br>
+      <div class="form-group">
+        <label for="warehouse_name">Enter warehouse name:</label>
+        <input type="text" class="form-control" id="warehouse_name" placeholder="Enter warehouse name here" required autocomplete="off">
+      </div><br>
+      <div class="form-group">
+        <label for="location">Enter the location of warehouse:</label>
+        <input type="text" class="form-control" id="location" placeholder="Enter warehouse location here" required autocomplete="off">
+      </div><br>
+      <div class="form-group">
+        <label for="capacity">Enter warehouse capacity:</label>
+        <input type="text" class="form-control" id="capacity" placeholder="Enter warehouse capacity here" required autocomplete="off">
+      </div><br><br>
+      <div class="button">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+    </div>
+  </div>
+  </div>
+</body>
+</html>
