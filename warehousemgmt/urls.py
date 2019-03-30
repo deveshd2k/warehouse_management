@@ -6,5 +6,6 @@ urlpatterns = [
 	path('warehouse_signup',views.warehouse_signup,name="warehouse_signup"),
 	path('shop_signup',views.shop_signup,name='shop_signup'),
 	path('login',views.login,name="login"),
-	path('dashboard',views.dashboard,name="dashboard")
+	path('dashboard',views.dashboard,name="dashboard"),
+	path('dashboard/barcode',views.barcode,name="barcode")
 ]

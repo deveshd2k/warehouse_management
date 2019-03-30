@@ -16,3 +16,6 @@ def login(request):
 
 def dashboard(request):
 	return render(request,'warehouse_dashboard.html')
+
+def barcode(request):
+	return render(request,'barcode.html')

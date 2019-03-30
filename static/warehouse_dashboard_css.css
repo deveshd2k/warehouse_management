@@ -31,3 +31,25 @@
 .btn:hover{
 	opacity: 0.9;
 }
+.card-1{
+  width: 92vw !important;
+  margin: 0 auto !important;
+  overflow-x: auto !important;
+  display: block !important;
+}
+.table{
+  margin: 0 0 2px 0 !important;
+}
+th{
+  color: white;
+  text-align: center;
+}
+td{
+  text-align: center;
+  color: #012900 !important;
+}
+.h-row{
+  background-color: #c58d07 !important;}
+tr{
+  background-color: white !important;
+}

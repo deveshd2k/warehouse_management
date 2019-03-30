@@ -33,7 +33,7 @@
 					Warehouse Location : Delhi<br>
 					Contact : 8112257329<br>
 					<button type="button" class="btn btn-primary">Add Bill</button>
-					<button type="button" class="btn btn-primary">Scan Barcode</button>
+					<button type="button" class="btn btn-primary" onclick="location.href = 'dashboard/barcode';">Scan Barcode</button>
 				</div>
 			</div>
 		</div>
@@ -59,4 +59,33 @@ $("#divProgress").circularloader({
 });
 </script>
 
+<div class="card card-1">
+  <table class="table table-hover">
+    <thead>
+      <tr class="h-row">
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Property 1</th>
+        <th>Property 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>P101</td>
+        <td>Pencils</td>
+        <td>200</td>
+        <td>Black Color</td>
+        <td>Apsara</td>
+      </tr>
+      <tr>
+        <td>E101</td>
+        <td>Erasers</td>
+        <td>200</td>
+        <td>White Color</td>
+        <td>Apsara</td>
+      </tr>
+    </tbody>
+  </table>
+</div>	
 {% endblock %}
