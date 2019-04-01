@@ -3,6 +3,12 @@
 {% block title %}Sign Up{% endblock %}
 {% block link %}
   <link rel="stylesheet" href="{% static 'shop_signup_css.css' %}" type="text/css">
+  <style>
+    .error{
+      font-size: 12px;
+      color: red;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -11,34 +17,40 @@
     <div class="card-header">Fill your details to sign up
     </div>
     <div class="card-body">
-    <form method="POST" class="form">
+    <form method="POST" class="form">{% csrf_token %}
+      {% for error in form.username.errors %}
+          <label class="error">{{ error }}  </label>
+      {% endfor %}
+      {% for error in form.password2.errors %}
+          <label class="error">{{ error }}  </label>
+      {% endfor %}
       <div class="form-group">
         <label for="name">Enter your name:</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter your name here" required autocomplete="off">
+        <input type="text" class="form-control" id="name" placeholder="Enter your name here" name="name" required autocomplete="off">
       </div><br>
       <div class="form-group">
         <label for="username">Enter your username:</label>
-        <input type="text" class="form-control" id="username" placeholder="Enter your username here" required autocomplete="off">
+        <input type="text" class="form-control" id="username" placeholder="Enter your username here" name="username" required autocomplete="off">
       </div><br>
       <div class="form-group">
         <label for="pwd1">Enter Password:</label>
-        <input type="password" class="form-control" id="pwd1" placeholder="Enter password here" required>
+        <input type="password" class="form-control" id="pwd1" placeholder="Enter password here" name="password1" required>
       </div><br>
       <div class="form-group">
         <label for="pwd2">Confirm Password:</label>
-        <input type="password" class="form-control" id="pwd2" placeholder="Enter password again" required>
+        <input type="password" class="form-control" id="pwd2" placeholder="Enter password again" name="password2" required>
       </div><br>
       <div class="form-group">
         <label for="shop_name">Enter shop name:</label>
-        <input type="text" class="form-control" id="shop_name" placeholder="Enter shop name here" required autocomplete="off">
+        <input type="text" class="form-control" id="shop_name" placeholder="Enter shop name here" name="shop_name" required autocomplete="off">
       </div><br>
       <div class="form-group">
         <label for="location">Enter the location of shop:</label>
-        <input type="text" class="form-control" id="location" placeholder="Enter shop location here" required autocomplete="off">
+        <input type="text" class="form-control" id="location" placeholder="Enter shop location here" name="location" required autocomplete="off">
       </div><br>
       <div class="form-group">
-        <label for="capacity">Enter shop capacity:</label>
-        <input type="text" class="form-control" id="capacity" placeholder="Enter shop capacity here" required autocomplete="off">
+        <label for="contact">Enter contact no:</label>
+        <input type="text" class="form-control" id="contact" placeholder="Enter contact no here" name="contact" required autocomplete="off">
       </div><br><br>
       <div class="button">
         <button type="submit" class="btn btn-primary">Submit</button>

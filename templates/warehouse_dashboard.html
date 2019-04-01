@@ -10,14 +10,14 @@
 {% block content %}
 
 <nav class="navbar navbar-expand-md">
-  <a class="navbar-brand" href="#">Welcome User</a>
+  <a class="navbar-brand" href="#">{{request.user.username}}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Logout</a>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       </li>   
     </ul>
   </div>  
@@ -27,20 +27,27 @@
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="card">
-				<div class="card-header">Welcome Warehouse Manager</div>
+        {% for data in queryset %}
+				<div class="card-header">Welcome {{data.name}}</div>
 				<div class="card-body">
-					Warehouse Name : Rajshree Ventures<br>
-					Warehouse Location : Delhi<br>
-					Contact : 8112257329<br>
-					<button type="button" class="btn btn-primary">Add Bill</button>
-					<button type="button" class="btn btn-primary" onclick="location.href = 'dashboard/barcode';">Scan Barcode</button>
+					Warehouse Name : {{data.warehouse_name}}<br>
+					Warehouse Location : {{data.location}}<br>
+					Contact : {{data.contact}}<br>
+          {% endfor %}
+          <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <input type="file" name="myfile">
+					  <button type="submit" id="add" class="btn btn-primary" disabled>Add Bill</button>
+          </form>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6">
 			<div class="card">
 				<div class="card-header">Capacity</div>
-				<div class="card-body"><div id="divProgress" style="cursor: pointer; text-align: center;"></div></div>
+				<div class="card-body">
+					<p style="text-align: center;">Percentage total Capacity remaining</p>
+					<div id="divProgress" style="cursor: pointer; text-align: center;"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -54,7 +61,7 @@ $("#divProgress").circularloader({
   progressBarBackground: "#cdcdcd",//background colour of circular progress Bar
   progressBarColor: "#c58d07",//colour of circular progress bar
   progressBarWidth: 10,//progress bar width
-  progressPercent: "50",//progress percentage out of 100
+  progressPercent: '{{percent}}',//progress percentage out of 100
   showText: true,//show progress text or not/
 });
 </script>
@@ -71,21 +78,28 @@ $("#divProgress").circularloader({
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>P101</td>
-        <td>Pencils</td>
-        <td>200</td>
-        <td>Black Color</td>
-        <td>Apsara</td>
-      </tr>
-      <tr>
-        <td>E101</td>
-        <td>Erasers</td>
-        <td>200</td>
-        <td>White Color</td>
-        <td>Apsara</td>
-      </tr>
+      {% if instance.all %}
+        {% for data in instance %}
+          <tr>
+            <td>{{data.p_id}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.quantity}}</td>
+            <td>{{data.prop1}}</td>
+            <td>{{data.prop2}}</td>
+          </tr>
+        {% endfor %}
+      {% endif %}
     </tbody>
   </table>
-</div>	
+</div>
+  <script type="text/javascript">
+    $('input[type=file]').change(function(){
+        if($('input[type=file]').val()==''){
+            $('#add').attr('disabled',true)
+        } 
+        else{
+          $('#add').attr('disabled',false);
+        }
+    })
+  </script>	
 {% endblock %}
