@@ -1,0 +1,46 @@
+.navbar{
+	background-color: #c58d07 !important;
+}
+.navbar-brand,.nav-link{
+	color: white !important;
+}
+.card{
+	border: none !important;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	margin: 20px !important;
+  margin-top: 40px !important;
+}
+.card-header{
+  text-align: center !important;
+  font-size: 20px !important;
+  color: white !important;
+  background-color: #c58d07 !important;
+}
+.card-body{
+	color: #012900 !important;
+	font-size: 18px !important;
+}
+.btn{
+  text-align: center !important;
+  background-color: #c58d07 !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: white !important;
+  width: 130px;
+  margin: 15px 10px 0 0;
+}
+.btn:hover{
+	opacity: 0.9;
+}
+.form-control{
+  margin: 0 auto !important;
+  width: 40vw !important;
+  background-color: transparent !important;
+  border: 1px solid #c58d07 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: #012900 !important;
+}
+.buttons{
+  text-align: center;
+}

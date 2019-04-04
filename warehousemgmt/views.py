@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import WarehouseSignUpForm, ShopkeeperSignUpForm, SearchForm
-from .models import Manager,Shopkeeper,Product
+from .forms import WarehouseSignUpForm, ShopkeeperSignUpForm,PhotographerSignUpForm,SearchForm,BarsearchForm,ImageForm
+from .models import Manager,Shopkeeper,Product,Photographer,ProductImage
 from .resources import ProductResource
 from tablib import Dataset
 from django.db.models import Sum
@@ -60,11 +60,38 @@ def shop_signup(request):
 		form = WarehouseSignUpForm()
 	return render(request,'shop_signup.html',{'form':form})
 
+def photographer_signup(request):
+	if request.method == "POST":
+		form = PhotographerSignUpForm(request.POST)
+		if form.is_valid():
+			addPhotographer = Photographer()
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			addPhotographer.username = form.cleaned_data['username']
+			addPhotographer.name = form.cleaned_data['name']
+			addPhotographer.contact = form.cleaned_data['contact']
+			addPhotographer.save()
+			form.save()
+			user = authenticate(username=username, password=raw_password)
+			login(request,user)
+			return HttpResponseRedirect('photographer_dashboard')
+		else:
+			print(form.errors)
+	else:
+		form = PhotographerSignUpForm()
+	return render(request,'photographer_signup.html',{'form':form})
+
+	return render(request,'photographer_signup.html')
+
 @login_required(login_url='login')
 @csrf_exempt
 def user_login(request):
+	username = request.user.username
+	queryset = Photographer.objects.filter(username=username)
 	if request.user.is_staff:
 		return redirect('warehouse_dashboard')
+	elif queryset:
+		return redirect('photographer_dashboard')
 	else:
 		return redirect('shop_dashboard')
 
@@ -109,9 +136,45 @@ def shop_dashboard(request):
 		form = SearchForm()
 	return render(request,'shop_dashboard.html',{'queryset':queryset,'instance':instance})
 
+@login_required(login_url='login')
+@csrf_exempt
+def photographer_dashboard(request):
+	username = request.user.username
+	queryset = Photographer.objects.filter(username=username)
+	instance = None
+	pic_instance = None
+	if request.method == 'POST' and 'barcode-btn' in request.POST:
+		form = BarsearchForm(request.POST)
+		if form.is_valid():
+			barcode_id = form.cleaned_data['barcode_id']
+			instance = Product.objects.filter(p_id=barcode_id)
+			pic_instance = ProductImage.objects.filter(p_id=barcode_id)
+		else:
+			print(form.errors)
+	elif request.method == "POST" and 'id-btn' in request.POST:
+		form = SearchForm(request.POST)
+		if form.is_valid():
+			p_id = form.cleaned_data['p_id']
+			instance = Product.objects.filter(p_id=p_id)
+			pic_instance = ProductImage.objects.filter(p_id=p_id)
+		else:
+			print(form.errors)
+	elif request.method == 'POST' and 'upload-btn' in request.POST:
+		form = ImageForm(request.POST,request.FILES)
+		if form.is_valid():
+			username = request.user.username
+			p_id = form.cleaned_data['p_id']
+			p_image = form.cleaned_data['p_image']
+			queryset1, created = ProductImage.objects.update_or_create(p_id = p_id,
+				defaults = {'p_id':p_id,'p_image':p_image,'p_uploader':username})
+			instance = Product.objects.filter(p_id=p_id)
+			pic_instance = ProductImage.objects.filter(p_id=p_id)
+		else:
+			print(form.errors)
+	else:
+		form = ImageForm()
+	return render(request,'photographer_dashboard.html',{'queryset':queryset,'instance':instance,'pic_instance':pic_instance})
+
 def userlogout(request):
 	logout(request)
 	return HttpResponseRedirect('/')
-
-def barcode(request):
-	return render(request,'barcode.html')

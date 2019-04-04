@@ -1,0 +1,171 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'photographer_dashboard_css.css' %}" type="text/css">
+    <style>
+        /* In order to place the tracking correctly */
+        canvas.drawing, canvas.drawingBuffer {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        {% if pic_instance %}
+          {% for data in pic_instance %}
+        .img-card{
+          background-image: url({{data.p_image.url}});
+          background-position: center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+          {% endfor %}
+        {% else %}
+        .img-card{
+          background-image: url({% static 'images/imgnotfound.jpg' %});
+          background-position: center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+        {% endif %}
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-expand-md">
+  <a class="navbar-brand" href="#">{{request.user.username}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      </li>   
+    </ul>
+  </div>  
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        {% for data in queryset %}
+        <div class="card-header">Welcome {{data.name}}</div>
+        <div class="card-body">
+          Email : {{request.user.email}}<br>
+          Contact : {{data.contact}}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">Upload Photo</div>
+        <div class="card-body">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Scan Barcode</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal-1">Search by ID</button>
+          <button type="button" class="btn btn-primary" style="width: 150px;">Search by Name</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if instance.all %}
+  {% for data in instance %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card img-card" style="height: 427px !important;">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body" style="font-size: 20px !important;">
+          <span style="color: #c58d07; margin-right: 20px;">Product Name:</span>{{data.name}}<br><br>
+          <span style="color: #c58d07; margin-right: 20px;">Quantity:</span>{{data.quantity}}<br><br>
+          <span style="color: #c58d07; margin-right: 20px;">Property 1:</span>{{data.prop1}}<br><br>
+          <span style="color: #c58d07; margin-right: 20px;">Property 2:</span>{{data.prop2}}<br><br>
+          <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <span style="color: #c58d07;">Add image:</span><br>
+              <input type="text" name="p_id" value="{{data.p_id}}" required style="display: none;">
+              <input type="file" style="width: 250px; margin: 20px 0 10px 0;" name="p_image" accept="image/*" required><br>
+              <button type="submit" name="upload-btn" class="btn">Upload</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  {% endfor %}
+{% endif %}
+
+<!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div id="barcode-picker" style="height: 500px;"></div><br>
+            <form method="POST">{% csrf_token %}
+              <input type="text" class="form-control" id="barcode_id" name="barcode_id" required>
+              <div class="buttons"><button type="submit" id="search-btn" class="btn" name="barcode-btn">Search</button></div>
+            </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="myModal-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Enter Product ID.</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form method="POST">{% csrf_token %}
+            <input type="text" name="p_id" class="form-control" placeholder="Enter Product ID here" style="width: 300px !important; margin: 0 !important;" required">
+            <button type="submit" class="btn" name="id-btn">Submit</button>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+<script src="https://unpkg.com/scandit-sdk"></script>
+<script>
+    console.log('Loading...');
+    ScanditSDK.configure("AaBsKDNdLtP1Q1XWykN3NN46/mLhIUGFeVLLqu9o0evaTy+i71uFnyNyEPZ+UUPIanPXCX9gw9DATs03gnxZPB5QyFb6cc34o3sBmotKiu1UNg0cZyN3dbQH5NLJvzMIhZ5U0VTwwHc4vmW+xWPdrgvHb49dtTyLizLxoPsaWpGNXpQSzkoj/0qB3l5wfOq5s0kn0z4oT8OzmdeH0e/jJQPETpKsShDAIK3gtBAv3QyuwNKnOwhtufJMpOx7reQtXYWPvzSxtN6Al4typRvvG4gdfTcaMLq6UUHR4vr/ECdvjAA48Ehhjvy6+HaWQt1MuT4/tZWVmWQ/VAEuq3l+o9D4g7mwKfcTZ6cgIB6oUXHBkKlIWxO/W9tPGFR6C/pwQz5M8PUKDvDQ3+rPz4Pse5Dxx0rujNt1aTYPYBYpjp/szjueTrty4kH2dLhNehr0CX8SHPL9+lkoujUFpZN7lXruWlsMafARFttskwphYZCFJo3Zt899TVawf6jS04zePJVNw6hT02WpbdLGvXmEfwQuRryqhxlantfeOew++hvK6iEf2mMjPlNvLqGkCbErrnLSJjZXAPAwXf4njwcaY9sUsz1oR36TpbHKNUiKHuRVtixIUi4cvWcahY98XEHsbCM/EdrHZmORDpytXA/R0L9aNq8F52ETn7BtbSXCMse4808hrKOgCd+DjPyZ3mA4jXCtVm/Js+9KW1ihrKrFoCUZ78Y0HulkWmRjBEq+Ku0PJJPTOSbS+wC+UzJQK7K2ny0PohV/lkVVCiAUBC0q81zuHuSmfB+UGsFm", {
+engineLocation: "https://unpkg.com/scandit-sdk/build/"
+    }).then(() => {
+      console.log('Loaded');
+      ScanditSDK.BarcodePicker.create(document.getElementById('barcode-picker'), {
+        playSoundOnScan: true,
+        vibrateOnScan: true
+      }).then(function(barcodePicker) {
+        console.log("Ready");
+        barcodePicker.applyScanSettings(new ScanditSDK.ScanSettings({
+          enabledSymbologies: ["ean8", "ean13", "upca", "upce", "code128", "code39", "code93", "itf", "qr"],
+          codeDuplicateFilter: 1000
+        }));
+        barcodePicker.onScan(function(barcodes) {
+          console.log(barcodes.barcodes['0']['data']);
+          document.getElementById("barcode_id").value = (barcodes.barcodes['0']['data']);
+        });
+      });
+    });
+</script>
+
+{% endblock %}
